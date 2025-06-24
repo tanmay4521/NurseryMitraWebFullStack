@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Delivered Orders | Nursery Mitra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Varela Round', sans-serif;
+      background-color: #f9fbf9;
+      color: #2e7d32;
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: #ffffff;
+      padding: 20px;
+      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sidebar h2 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      color: #276427;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: #2e7d32;
+      font-weight: 600;
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+
+    .sidebar a:hover {
+      background-color: #eaf5ea;
+    }
+
+    .main-content {
+      flex-grow: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .main-content h1 {
+      margin-bottom: 20px;
+      color: #276427;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #ffffff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #e0f0e0;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background-color: #eaf5ea;
+      color: #276427;
+    }
+
+    tr:hover {
+      background-color: #f1f9f1;
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <h2>Orders Menu</h2>
+    <a th:href="@{/orders}">Create Orders</a>
+    <a th:href="@{/orders/view-orders}">View Orders</a>
+    <a th:href="@{/orders/delivered-orders}">Delivered Orders</a>
+    <a th:href="@{/index}">Back to Home</a>
+  </aside>
+
+  <main class="main-content">
+    <h1>Delivered Orders</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Customer Name</th>
+          <th>Mobile</th>
+          <th>Product</th>
+          <th>Total Payment</th>
+          <th>Date Delivered</th>
+          <th>Payment Method</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="order : ${deliveredOrders}">
+          <td th:text="${order.cust_name}">Aarti</td>
+          <td th:text="${order.cust_mobno}">9988776655</td>
+          <td th:text="${order.product}">Mango Sapling</td>
+          <td th:text="${order.totalPayment}">450</td>
+          <td th:text="${order.deliveryDate}">2025-06-01</td>
+          <td th:text="${order.paymentMethod}">Online</td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+
+</body>
+</html>

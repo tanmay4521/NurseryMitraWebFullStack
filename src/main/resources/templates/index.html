@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home | Nursery Mitra</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet" />
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-papbZF78FVX09CFqOnUlgmK1q7kwkW+guBhvz56VlgFfKZhBfiZpVF7oSLhHJkTcDRU5NY3xmq5qypxrlcw0KQ=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
+</head>
+<style>
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Varela Round', sans-serif;
+  margin: 0;
+  background-color: #f9fbf9;
+  color: #2e7d32;
+  line-height: 1.65;
+  font-size: 18px;
+}
+
+header {
+  width: 100%;
+  background-color: #ffffff;
+  box-shadow: 0 4px 15px rgba(56, 174, 56, 0.25);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+}
+
+.header-inner h1 {
+  color: #38ae38;
+  font-weight: 700;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.nav {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav a {
+  color: #38ae38;
+  text-decoration: none;
+  font-weight: 600;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  height: 2px;
+  width: 0;
+  background-color: #38ae38;
+  transition: width 0.3s ease;
+}
+
+.nav a:hover {
+  color: #276427;
+}
+
+.nav a:hover::after {
+  width: 100%;
+}
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 80px 20px 60px;
+  background: #eaf5ea;
+  color: #2e7d32;
+}
+
+.hero h2 {
+  font-size: 2.8rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.hero p {
+  font-size: 1.25rem;
+  margin-bottom: 25px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #3a5d31;
+}
+
+.btn {
+  display: inline-block;
+  background-color: #38ae38;
+  color: white;
+  padding: 14px 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 6px 12px rgba(56, 174, 56, 0.3);
+}
+
+.btn:hover {
+  background-color: #2e7d32;
+  box-shadow: 0 8px 16px rgba(46, 125, 50, 0.5);
+}
+
+/* Features Section */
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  padding: 40px 20px 80px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.feature-card {
+  background: white;
+  box-shadow: 0 8px 24px rgba(56, 174, 56, 0.15);
+  border-radius: 12px;
+  width: 220px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.feature-card:hover {
+  box-shadow: 0 12px 36px rgba(46, 125, 50, 0.3);
+  transform: translateY(-6px);
+}
+
+.feature-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px; /* space between icon and text */
+  color: #2e7d32;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-decoration: none;
+  width: 100%;
+  padding: 10px 15px;
+}
+
+.feature-link:hover {
+  color: #276427;
+  text-decoration: underline;
+}
+.feature-icon {
+  font-size: 28px;
+  color: #2e7d32;
+  /* optional: add transition for smooth color change */
+  transition: color 0.3s ease;
+}
+
+.feature-link:hover .feature-icon {
+  color: #276427;
+}
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px 10px;
+  background-color: #eaf5ea;
+  color: #2e7d32;
+  font-size: 0.9rem;
+  margin-top: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .features {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .feature-card {
+    width: 80%;
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 400px) {
+  .hero h2 {
+    font-size: 2rem;
+  }
+  
+  .hero p {
+    font-size: 1rem;
+  }
+}
+html{
+    scroll-behavior: smooth;
+}
+</style>
+<body>
+  <header>
+    <div class="container header-inner">
+      <h1>Nursery Mitra</h1>
+      <ul class="nav">
+        <li><a th:href="@{/index}" class="active">Home</a></li>
+        <li><a th:href="@{/about}">About</a></li>
+        <li><a th:href="@{/contactus}">Contact Us</a></li>
+        <li><a th:href="@{/profile}">Profile</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h2>Welcome to Nursery Mitra</h2>
+    <p>Your all-in-one solution for managing orders, customers, billing, attendance, and products efficiently.</p>
+    <a class="btn" href="#features">Get Started</a>
+  </section>
+
+  <section class="features" id="features">
+    <div class="feature-card">
+      <a th:href="@{/orders}" class="feature-link">
+        <i class="fa-solid fa-cart-shopping feature-icon"></i>
+        Manage Orders
+      </a>
+    </div>
+    <div class="feature-card">
+      <a th:href="@{/customers}" class="feature-link">
+        <i class="fa-solid fa-users feature-icon"></i>
+        Manage Customers
+      </a>
+    </div>
+    <div class="feature-card">
+      <a th:href="@{/bills}" class="feature-link">
+        <i class="fa-solid fa-file-invoice-dollar feature-icon"></i>
+        Manage Bills
+      </a>
+    </div>
+    <div class="feature-card">
+      <a th:href="@{/attendance}" class="feature-link">
+        <i class="fa-solid fa-calendar-check feature-icon"></i>
+        Manage Attendance
+      </a>
+    </div>
+    <div class="feature-card">
+      <a th:href="@{/products}" class="feature-link">
+        <i class="fa-solid fa-box feature-icon"></i>
+        Manage Products
+      </a>
+    </div>
+    <div class="feature-card">
+      <a th:href="@{/staff}" class="feature-link">
+        <i class="fa-solid fa-user-tie feature-icon"></i>
+        Manage Staff
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Nursery Mitra. All rights reserved.</p>
+  </footer>
+</body>
+</html>

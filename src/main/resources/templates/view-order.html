@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>View Orders | Nursery Mitra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Varela Round', sans-serif;
+      background-color: #f9fbf9;
+      color: #2e7d32;
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: #ffffff;
+      padding: 20px;
+      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sidebar h2 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      color: #276427;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: #2e7d32;
+      font-weight: 600;
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+
+    .sidebar a:hover {
+      background-color: #eaf5ea;
+    }
+
+    .main-content {
+      flex-grow: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .main-content h1 {
+      margin-bottom: 20px;
+      color: #276427;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #ffffff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #e0f0e0;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background-color: #eaf5ea;
+      color: #276427;
+    }
+    
+    tr:hover {
+      background-color: #f1f9f1;
+    }
+
+    .btn {
+      padding: 6px 12px;
+      background-color: #38ae38;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #2e7d32;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      width: 400px;
+    }
+
+    .modal-content h2 {
+      margin-top: 0;
+      color: #276427;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #cce5cc;
+      border-radius: 6px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+
+    .cancel-btn {
+      background-color: #ccc;
+      color: black;
+    }
+
+    .cancel-btn:hover {
+      background-color: #999;
+    }
+    .deletebtn{
+    	padding: 6px 12px;
+      	background-color: red;
+      	color: white;
+      	border: none;
+      	border-radius: 5px;
+      	cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <h2>Orders Menu</h2>
+    <a th:href="@{/orders}">Create Orders</a>
+    <a th:href="@{/orders/view-orders}">View Orders</a>
+    <a th:href="@{/orders/delivered-orders}">Delivered Orders</a>
+    <a th:href="@{/index}">Back to Home</a>
+  </aside>
+
+  <main class="main-content">
+    <h1>All Orders</h1>
+
+    <table>
+      <thead>
+        <tr>
+       	  <th>ID</th>
+          <th>Customer Name</th>
+          <th>Mobile</th>
+          <th>Product</th>
+          <th>Price (₹)</th>
+          <th>Quantity</th>
+          <th>Total Payment</th>
+          <th>Advance Paid</th>
+          <th>Remaining Payment</th>
+          <th>Status</th>
+          <th>Order Date</th>
+          <th>Delivery Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="order : ${orders}">
+          <td th:text="${order.order_id}">ID</td>
+          <td th:text="${order.order_cust_name}">Tanmay</td>
+          <td th:text="${order.order_cust_mobno}">9876543210</td>
+          <td th:text="${order.order_productname}">Rose Plant</td>
+          <td th:text="${order.order_productprice}">100</td>
+          <td th:text="${order.order_productqty}">3</td>
+          <td th:text="${order.totalpayment}">300</td>
+          <td th:text="${order.advpayment}">100</td>
+          <td th:text="${order.remainingPayment}"></td>
+          <td th:text="${order.status}">Pending</td>
+          <td th:text="${order.order_date}">Pending</td>
+          <td th:text="${order.delivery_date}">Pending</td>
+          <td>
+			<button class="btn mark-delivered-btn"
+  				th:attr="data-id=${order.order_id}, data-customer=${order.order_cust_name}, data-remaining=${order.remainingPayment}">
+  				Mark as Delivered
+			</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal" id="paymentModal">
+    <div class="modal-content">
+      <h2>Complete Payment</h2>
+      <form id="paymentForm">
+        <div class="form-group">
+          <label for="customer">Customer</label>
+          <input type="text" id="customer" name="customer" readonly>
+        </div>
+        <div class="form-group">
+          <label for="remaining">Remaining Amount (₹)</label>
+          <input type="number" id="remaining" name="remaining" readonly>
+        </div>
+        <div class="form-group">
+          <label for="paymentMethod">Payment Method</label>
+          <select id="paymentMethod" name="paymentMethod" required>
+            <option value="">--Select--</option>
+            <option value="Cash">Cash</option>
+            <option value="UPI">UPI</option>
+            <option value="Bank Transfer">Bank Transfer</option>
+          </select>
+        </div>
+        <div class="modal-buttons">
+          <button type="submit" class="btn">Confirm</button>
+          <button type="button" class="btn cancel-btn">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script>
+	  const modal = document.getElementById("paymentModal");
+	  const customerInput = document.getElementById("customer");
+	  const remainingInput = document.getElementById("remaining");
+	  const paymentMethodSelect = document.getElementById("paymentMethod");
+	  let selectedOrderId = null;
+	
+	  document.querySelectorAll(".mark-delivered-btn").forEach(btn => {
+	    btn.addEventListener("click", () => {
+	      selectedOrderId = btn.getAttribute("data-id");
+	      customerInput.value = btn.getAttribute("data-customer");
+	      remainingInput.value = btn.getAttribute("data-remaining");
+	      modal.style.display = "flex";
+	    });
+	  });
+	
+	  document.querySelector(".cancel-btn").addEventListener("click", () => {
+	    modal.style.display = "none";
+	    paymentMethodSelect.value = "";
+	  });
+
+	  document.getElementById("paymentForm").addEventListener("submit", async (e) => {
+	    e.preventDefault();
+	
+	    const paymentMethod = paymentMethodSelect.value;
+	
+	    const response = await fetch(`/orders/mark-delivered/${selectedOrderId}`, {
+	      method: "POST",
+	      headers: {
+	        "Content-Type": "application/json",
+	      },
+	      body: JSON.stringify({ paymentMethod })
+	    });
+	
+	    if (response.ok) {
+	      alert("Order marked as delivered!");
+	      window.location.reload();
+	    } else {
+	      alert("Error marking order as delivered.");
+	    }
+	  });
+	</script>
+</body>
+</html>

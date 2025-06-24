@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About | Nursery Mitra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" th:href="@{/css/about.css}" />
+</head>
+<style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Varela Round', sans-serif;
+      margin: 0;
+      background-color: #f9fbf9;
+      color: #2e7d32;
+      line-height: 1.65;
+      font-size: 18px;
+    }
+
+    header {
+      width: 100%;
+      background-color: #ffffff;
+      box-shadow: 0 4px 15px rgba(56, 174, 56, 0.25);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 30px;
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+
+    .header-inner h1 {
+      color: #38ae38;
+      font-weight: 700;
+      font-size: 1.8rem;
+      margin: 0;
+    }
+
+    .nav {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav a {
+      color: #38ae38;
+      text-decoration: none;
+      font-weight: 600;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .nav a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      height: 2px;
+      width: 0;
+      background-color: #38ae38;
+      transition: width 0.3s ease;
+    }
+
+    .nav a:hover {
+      color: #276427;
+    }
+
+    .nav a:hover::after {
+      width: 100%;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 40px auto;
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 40px;
+      box-shadow: 0 8px 24px rgba(56, 174, 56, 0.15);
+    }
+
+    main h1 {
+      font-size: 2.5rem;
+      color: #38ae38;
+      margin-bottom: 20px;
+    }
+
+    main p {
+      margin-bottom: 20px;
+      font-weight: 500;
+      color: #3a5d31;
+    }
+
+    main strong {
+      color: #276427;
+    }
+
+    main em {
+      font-style: normal;
+      font-weight: 600;
+      color: #56a856;
+    }
+
+    main a {
+      color: #2e7d32;
+      text-decoration: underline;
+      font-weight: 600;
+    }
+
+    main a:hover {
+      color: #56a856;
+    }
+
+    @media (max-width: 768px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .nav {
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      main {
+        padding: 25px 20px;
+        margin: 30px 15px;
+      }
+
+      main h1 {
+        font-size: 2rem;
+      }
+
+      body {
+        font-size: 16px;
+      }
+    }
+  </style>
+<body>
+
+  <header>
+    <div class="container">
+      <div class="header-inner">
+        <h1>Nursery Mitra</h1>
+        <ul class="nav">
+          <li><a th:href="@{/index}">Home</a></li>
+          <li><a th:href="@{/about}">About</a></li>
+          <li><a th:href="@{/contactus}">Contact Us</a></li>
+          <li><a th:href="@{/profile}">Profile</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <h1>About Nursery Mitra</h1>
+    <p>
+      Hello! I am <strong>Tanmay Nagawade</strong>, the developer behind this website and the mobile app named
+      <em>Nursery Mitra</em>. I started developing this project in 2024 with the goal of providing a comprehensive platform
+      to help nurseries manage their business effectively.
+    </p>
+    <p>
+      This application aims to simplify tasks such as order management, customer relations, and product tracking
+      to empower nursery owners and customers alike. I am committed to continuously improving this platform to meet
+      the evolving needs of its users.
+    </p>
+    <p>
+      You can contact me using the following email:
+      <a href="mailto:nagawadetanmay67@gmail.com">nagawadetanmay67@gmail.com</a>
+    </p>
+  </main>
+
+</body>
+</html>

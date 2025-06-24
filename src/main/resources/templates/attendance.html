@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance | Nursery Mitra</title>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet" />
+    <style>
+        * {
+          box-sizing: border-box;
+        }
+
+        body {
+          margin: 0;
+          font-family: 'Varela Round', sans-serif;
+          background-color: #f9fbf9;
+          color: #2e7d32;
+          display: flex;
+          height: 100vh;
+        }
+
+        .sidebar {
+          width: 220px;
+          background-color: #ffffff;
+          padding: 20px;
+          box-shadow: 2px 0 12px rgba(0, 0, 0, 0.05);
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        .sidebar h2 {
+          font-size: 1.3rem;
+          margin-bottom: 20px;
+          color: #276427;
+        }
+
+        .sidebar a {
+          text-decoration: none;
+          color: #2e7d32;
+          font-weight: 600;
+          padding: 10px 15px;
+          border-radius: 8px;
+          transition: background-color 0.3s ease;
+        }
+
+        .sidebar a:hover {
+          background-color: #eaf5ea;
+        }
+
+        .main-content {
+          flex-grow: 1;
+          padding: 30px;
+          overflow-y: auto;
+        }
+
+        .main-content h1 {
+          margin-bottom: 20px;
+          color: #276427;
+        }
+
+        .form-group {
+          margin-bottom: 20px;
+        }
+
+        label {
+          display: block;
+          margin-bottom: 6px;
+          font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #cce5cc;
+          border-radius: 6px;
+        }
+
+        button {
+          background-color: #38ae38;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          font-weight: 600;
+          border-radius: 8px;
+          cursor: pointer;
+        }
+
+        button:hover {
+          background-color: #2e7d32;
+        }
+
+        #staff-attendance {
+            width: 100%;
+            height: 30px;
+            border: 2px solid #cce5cc;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        #btn {
+            margin-top: 3%;
+            margin-left: 40%;
+        }
+    </style>
+</head>
+<body>
+
+<aside class="sidebar">
+    <h2>Attendance Menu</h2>
+    <a th:href="@{/attendance}">Take Attendance</a>
+    <a th:href="@{/attendance/view}">View Attendance</a>
+    <a th:href="@{/index}">Go back to home</a>
+</aside>
+
+<main class="main-content">
+    <h1>Take Attendance Of Staff</h1>
+    
+    <form th:action="@{/attendance/add}" method="post" th:object="${attendance}">
+        <div class="form-group">
+            <input type="hidden" th:field="*{date}"/>
+            <label for="staffattendance">Select Staff</label>
+            <select name="staff_name" id="staff-attendance" required>
+                <option value="" disabled selected>Please Select Staff</option>
+                <option th:each="staff : ${staffList}" 
+                        th:value="${staff.staff_name}"
+                        th:text="${staff.staff_name}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="remark">Add Remark</label>
+            <textarea id="text-area" name="remark" th:field="*{remark}" placeholder="Optional..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn" id="btn">Add Attendance</button>
+        </div>
+    </form>
+</main>
+
+</body>
+</html>

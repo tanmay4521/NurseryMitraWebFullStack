@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Notify Customers | Nursery Mitra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Varela Round', sans-serif;
+      background-color: #f9fbf9;
+      color: #2e7d32;
+      display: flex;
+      height: 100vh;
+    }
+    .sidebar {
+      width: 220px;
+      background-color: #ffffff;
+      padding: 20px;
+      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .sidebar h2 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      color: #276427;
+    }
+    .sidebar a {
+      text-decoration: none;
+      color: #2e7d32;
+      font-weight: 600;
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+    .sidebar a:hover {
+      background-color: #eaf5ea;
+    }
+    .main-content {
+      flex-grow: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+    .main-content h1 {
+      margin-bottom: 20px;
+      color: #276427;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cce5cc;
+      border-radius: 6px;
+    }
+    button {
+      background-color: #38ae38;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2e7d32;
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <h2>Customer Menu</h2>
+    <a th:href="@{/customers}">Add Customer</a>
+    <a th:href="@{/customers/view}">View Customers</a>
+    <a th:href="@{/customers/notify}">Send Notification</a>
+    <a th:href="@{/index}">Back to Home</a>
+  </aside>
+
+  <main class="main-content">
+    <h1>Send Notification</h1>
+
+    <form th:action="@{/customers/notify}" method="post">
+      <div class="form-group">
+        <label for="customer">Select Customer</label>
+        <select id="customer" name="customerId">
+          <option value="">-- Select --</option>
+          <option th:each="cust : ${customer}"
+                  th:value="${cust.id}"
+                  th:text="${cust.cust_name}">Customer Name</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="message">Notification Message</label>
+        <textarea id="message" name="message" rows="4" placeholder="Enter your message"></textarea>
+      </div>
+      <button type="submit">Send Notification</button>
+    </form>
+  </main>
+
+</body>
+</html>

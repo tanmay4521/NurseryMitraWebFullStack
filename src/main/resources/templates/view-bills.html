@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>View Bills | Nursery Mitra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Varela Round', sans-serif;
+      background-color: #f9fbf9;
+      color: #2e7d32;
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: #ffffff;
+      padding: 20px;
+      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sidebar h2 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      color: #276427;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: #2e7d32;
+      font-weight: 600;
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+
+    .sidebar a:hover {
+      background-color: #eaf5ea;
+    }
+
+    .main-content {
+      flex-grow: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .main-content h1 {
+      margin-bottom: 20px;
+      color: #276427;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #ffffff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #e0f0e0;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background-color: #eaf5ea;
+      color: #276427;
+    }
+
+    tr:hover {
+      background-color: #f1f9f1;
+    }
+
+    .action-btn {
+      margin-right: 8px;
+      background-color: #38ae38;
+      color: white;
+      padding: 6px 10px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .action-btn.print {
+      background-color: #2e7d32;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        flex-direction: column;
+        height: auto;
+      }
+      .sidebar {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        padding: 15px 10px;
+      }
+      .main-content {
+        padding: 20px 15px;
+      }
+
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tr {
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 10px;
+      }
+
+      td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+      }
+
+      td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        top: 12px;
+        font-weight: bold;
+        color: #276427;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <h2>Billing Menu</h2>
+    <a th:href="@{/bills}">Create Bill</a>
+    <a th:href="@{/view-bills}">View Bill</a>
+    <a th:href="@{/index}">Back to Home</a>
+  </aside>
+
+  <main class="main-content">
+    <h1>View Bills</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Bill ID</th>
+          <th>Customer</th>
+          <th>Product</th>
+          <th>Qty</th>
+          <th>Rate (₹)</th>
+          <th>Total (₹)</th>
+          <th>Payment Mode</th>
+        </tr>
+      </thead>
+      <tbody id="billList">
+        <tr th:each="bill : ${bills}" th:id="'bill-' + ${bill.id}">
+          <td th:text="${bill.id}">001</td>
+          <td th:text="${bill.customerName}">Tanmay</td>
+          <td th:text="${bill.product}">Rose Plant</td>
+          <td th:text="${bill.quantity}">2</td>
+          <td th:text="${bill.rate}">150</td>
+          <td th:text="${bill.total}">300</td>
+          <td th:text="${bill.paymentMode}">UPI</td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>

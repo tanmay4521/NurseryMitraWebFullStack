@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Orders | Nursery Mitra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Varela Round', sans-serif;
+      background-color: #f9fbf9;
+      color: #2e7d32;
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: #ffffff;
+      padding: 20px;
+      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sidebar h2 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      color: #276427;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: #2e7d32;
+      font-weight: 600;
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+
+    .sidebar a:hover {
+      background-color: #eaf5ea;
+    }
+
+    .main-content {
+      flex-grow: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .main-content h1 {
+      margin-bottom: 20px;
+      color: #276427;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cce5cc;
+      border-radius: 6px;
+    }
+
+    button {
+      background-color: #38ae38;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2e7d32;
+    }
+    #date{
+    	width: 20%;
+      padding: 10px;
+      border: 1px solid #cce5cc;
+      border-radius: 6px;
+    }
+    #status_select{
+   		width: 20%;
+      	padding: 10px;
+      	border: 1px solid #cce5cc;
+      	border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <h2>Orders Menu</h2>
+    <a th:href="@{/orders}">Create Orders</a>
+    <a th:href="@{/orders/view-orders}">View Orders</a>
+    <a th:href="@{/orders/delivered-orders}">Delivered Orders</a>
+    <a th:href="@{/index}">Back to Home</a>
+  </aside>
+
+  <main class="main-content">
+    <h1>Create New Order</h1>
+
+	    <form th:action="@{/orders}" th:object="${order}" method="post">
+	  <div class="form-group">
+	    <label for="order_cust_name">Customer Name</label>
+	    <input type="text" id="customerName" th:field="*{order_cust_name}" placeholder="Enter customer name" required/>
+	  </div>
+	
+	  <div class="form-group">
+	    <label for="order_cust_mobno">Mobile Number</label>
+	    <input type="number" id="mobileNumber" th:field="*{order_cust_mobno}" placeholder="Enter Customer Mobile Number" required/>
+	  </div>
+	
+	  <div class="form-group">
+	    <label for="order_productname">Product</label>
+	    <input type="text" id="product" th:field="*{order_productname}" placeholder="Enter Product Name" required/>
+	  </div>
+	
+	  <div class="form-group">
+	    <label for="order_productprice">Product Price (₹)</label>
+	    <input type="number" id="price" th:field="*{order_productprice}" placeholder="Enter Product Price" required/>
+	  </div>
+	
+	  <div class="form-group">
+	    <label for="order_productqty">Quantity</label>
+	    <input type="number" id="quantity" th:field="*{order_productqty}" placeholder="Enter Product Quantity" required/>
+	  </div>
+	
+	  <div class="form-group">
+	    <label for="totalpayment">Total Payment</label>
+	    <input type="number" id="totalPayment" th:field="*{totalpayment}" readonly />
+	  </div>
+	
+	  <div class="form-group">
+	    <label for="advpayment">Advanced Payment</label>
+	    <input type="number" id="advPayment" th:field="*{advpayment}" placeholder="Enter Advanced Payment" required/>
+	  </div>
+	  
+	  <div class="form-group">
+	    <label for="remainingPayment">Remaining Payment</label>
+	    <input type="number" id="remainingPayment" th:field="*{remainingPayment}" readonly />
+	  </div>
+	  
+	  <div class="form-group">
+	    <label for="order_date">Order Date</label>
+	    <input type="date" id="date" th:field="*{order_date}" required/>
+	  </div>
+		<div class="form-group">
+	    <label for="delivery_date">Delivery Date</label>
+	    <input type="date" id="date" th:field="*{delivery_date}" required/>
+	  	</div>
+	  	<div class="form-group">
+	    <label for="status">Order Status</label>
+	    <select id="status_select" th:field="*{status}" required>
+		    <option value="" selected>-- Select Status --</option>
+		    <option value="Pending">Pending</option>
+		    <option value="Delivered">Delivered</option>
+		</select>
+	  	</div>		
+	  <button type="submit">Submit Order</button>
+	</form>
+
+  </main>
+	<script>
+	  function calculateTotal() {
+	    const price = parseFloat(document.getElementById("price").value) || 0;
+	    const quantity = parseFloat(document.getElementById("quantity").value) || 0;
+	    document.getElementById("totalPayment").value = price * quantity;
+	    calculateRemaining();
+	  }
+	  function calculateRemaining() {
+		  const total=parseFloat(document.getElementById("totalPayment").value) || 0;
+		  const adv=parseFloat(document.getElementById("advPayment").value) || 0;
+		  const remaining=total-adv;
+		  document.getElementById("remainingPayment").value = remaining >= 0 ? remaining : 0;
+	  }
+	
+	  document.getElementById("price").addEventListener("input", calculateTotal);
+	  document.getElementById("quantity").addEventListener("input", calculateTotal);
+	  document.getElementById("advPayment").addEventListener("input", calculateRemaining);
+	</script>
+</body>
+</html>

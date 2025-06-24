@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page | Nursery Mitra</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <style>
+        .alert {
+            padding: 15px 20px;
+            margin: 15px auto;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            font-family: 'Varela Round', sans-serif;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .error-alert {
+            background-color: #ffe0e0;
+            color: #d8000c;
+            border: 1px solid #f5c2c2;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-form">
+            <h1>Login Page</h1>
+            <div th:if="${error}" class="alert error-alert">
+                <p th:text="${error}">Invalid username or password.</p>
+            </div>
+
+            <form th:action="@{/login}" method="post">
+                <input type="text" name="email" placeholder="Enter Email" required>
+                <input type="password" name="password" placeholder="Enter Password" required>
+                <input type="submit" value="Login">
+                <a th:href="@{/forgot-password}">Forgot Password?</a>
+            </form>
+        </div>
+    </div>
+    <script>
+        setTimeout(() => {
+            const alert = document.querySelector('.error-alert');
+            if (alert) {
+                alert.style.transition = "opacity 0.5s ease";
+                alert.style.opacity = "0";
+                setTimeout(() => alert.remove(), 500);
+            }
+        }, 4000);
+    </script>
+</body>
+</html>

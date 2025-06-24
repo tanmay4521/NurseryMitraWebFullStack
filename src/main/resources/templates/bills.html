@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Billing | Nursery Mitra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" th:href="@{/css/style.css}"/> <!-- Optional external CSS -->
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Varela Round', sans-serif;
+      background-color: #f9fbf9;
+      color: #2e7d32;
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: #ffffff;
+      padding: 20px;
+      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sidebar h2 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      color: #276427;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: #2e7d32;
+      font-weight: 600;
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+
+    .sidebar a:hover {
+      background-color: #eaf5ea;
+    }
+
+    .main-content {
+      flex-grow: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .main-content h1 {
+      margin-bottom: 20px;
+      color: #276427;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #276427;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #cce5cc;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+      color: #2e7d32;
+      background-color: #f9fbf9;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #38ae38;
+      background-color: #eaf5ea;
+    }
+
+    button {
+      background-color: #38ae38;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2e7d32;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        flex-direction: column;
+        height: auto;
+      }
+      .sidebar {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        padding: 15px 10px;
+      }
+      .main-content {
+        padding: 20px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <h2>Billing Menu</h2>
+    <a th:href="@{/bills}">Create Bill</a>
+    <a th:href="@{/bills/view-bills}">View Bill</a>
+    <a th:href="@{/index}">Back to Home</a>
+  </aside>
+
+  <main class="main-content">
+    <h1>Create Bill</h1>
+
+    <form th:action="@{/bills}" th:object="${bill}" method="post" id="billForm">
+      <div class="form-group">
+        <label for="customerName">Customer Name</label>
+        <input type="text" id="customerName" th:field="*{customerName}" placeholder="Enter customer name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="product">Product</label>
+        <input type="text" id="product" th:field="*{product}" placeholder="Enter product name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="quantity">Quantity</label>
+        <input type="number" id="quantity" th:field="*{quantity}" placeholder="Enter quantity" required />
+      </div>
+
+      <div class="form-group">
+        <label for="rate">Rate (₹)</label>
+        <input type="number" id="rate" th:field="*{rate}" placeholder="Enter rate" required />
+      </div>
+
+      <div class="form-group">
+        <label for="total">Total Amount (₹)</label>
+        <input type="number" id="total" th:field="*{total}" readonly />
+      </div>
+
+      <div class="form-group">
+        <label for="paymentMode">Payment Mode</label>
+        <select id="paymentMode" th:field="*{paymentMode}" required>
+          <option value="">Select Payment Mode</option>
+          <option value="Cash">Cash</option>
+          <option value="UPI">UPI</option>
+          <option value="Card">Card</option>
+          <option value="Net Banking">Net Banking</option>
+        </select>
+      </div>
+
+      <button type="submit">Generate Bill</button>
+    </form>
+  </main>
+
+  <script>
+    // Auto-calculate total
+    const quantityInput = document.getElementById("quantity");
+    const rateInput = document.getElementById("rate");
+    const totalInput = document.getElementById("total");
+
+    function calculateTotal() {
+      const quantity = parseFloat(quantityInput.value) || 0;
+      const rate = parseFloat(rateInput.value) || 0;
+      totalInput.value = (quantity * rate).toFixed(2);
+    }
+
+    quantityInput.addEventListener("input", calculateTotal);
+    rateInput.addEventListener("input", calculateTotal);
+  </script>
+
+</body>
+</html>

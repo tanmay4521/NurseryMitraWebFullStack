@@ -22,4 +22,7 @@ public class StaffService
 	{
 		return s1.findAll();
 	}
+	public Staff getStaffById(int id) {
+		return s1.findById(id).orElse(null);
+	}
 }

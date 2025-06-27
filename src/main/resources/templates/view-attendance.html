@@ -114,7 +114,7 @@
       border-radius: 6px;
       text-align: center;
     }
-    #filter-btn {
+    #search-btn {
     	background-color: #38ae38;
         color: white;
         border: none;
@@ -137,23 +137,6 @@
 
   <main class="main-content">
     <h1>View Attendance</h1>
-
-    <form th:action="@{/attendance/view}" method="get">
-      <div class="form-group">
-        <label for="staffattendance">Select Staff</label>
-        <select name="staffId" id="staff-attendance">
-          <option value="" disabled selected>Please Select Staff</option>
-          <option th:each="staff : ${staffList}"
-                  th:value="${staff.id}"
-                  th:text="${staff.staff_name}"></option>
-        </select>
-      </div>
-      <br/>
-      <button type="submit" id="filter-btn">Filter</button>
-    </form>
-
-    <br/>
-
     <table>
       <thead>
         <tr>
@@ -163,8 +146,8 @@
       </thead>
       <tbody id="billList">
         <tr th:each="record : ${attendanceList}">
-          <td th:text="${record.staffName}">Tanmay</td>
-          <td th:text="${#temporals.format(record.date, 'dd/MM/yyyy')}">02/05/2025</td>
+          <td th:text="${record.staff_name}">Tanmay</td>
+          <td th:text="${record.date}">02/05/2025</td>
         </tr>
       </tbody>
     </table>

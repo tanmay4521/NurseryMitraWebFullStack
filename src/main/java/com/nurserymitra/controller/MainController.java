@@ -25,13 +25,13 @@ public class MainController {
     }
 
   
-    @PostMapping("/login")
+    @PostMapping("/index")
     public String loginSubmit(@ModelAttribute("user") Users user, Model model, HttpSession session) {
         Users existingUser = userService.validateUser(user.getEmail(), user.getPassword());
         
         if (existingUser != null) {
             session.setAttribute("loggedInUserId", existingUser.getId());
-            return "index";
+            return "redirect:/index";
         } else {
             model.addAttribute("error", "Invalid username or password");
             return "login";
@@ -43,9 +43,19 @@ public class MainController {
     	return "about";
     }
     @GetMapping("/index")
-    public String homePage()
+    public String homePage(Model m,HttpSession session)
     {
-    	return "index";
+        Integer userId = (Integer) session.getAttribute("loggedInUserId");
+        if(userId==null)
+        {
+            return "redirect:/";
+        }
+        Users user = userService.getUserById(userId);
+        if (user == null) {
+            return "redirect:/";
+        }
+        m.addAttribute("user", user);
+        return "index";
     }
     @GetMapping("/contactus")
     public String contactUsPage()
@@ -69,5 +79,10 @@ public class MainController {
         return "profile";
     }
 
-
+    @GetMapping("/logout")
+    public String logoutPage(HttpSession session)
+    {
+        session.invalidate();
+        return "redirect:/";
+    }
 }

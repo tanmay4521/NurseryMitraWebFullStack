@@ -14,6 +14,7 @@ import com.nurserymitra.Entity.Attendance;
 import com.nurserymitra.Entity.Staff;
 import com.nurserymitra.Services.AttendanceService;
 import com.nurserymitra.Services.StaffService;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AttendanceController 
@@ -33,12 +34,24 @@ public class AttendanceController
 		
 	}
 	@GetMapping("/attendance/view")
-	public String ViewAttendancePage(Model m)
-	{
-		List<Staff> list=s1.getAllStaff();
-		m.addAttribute("staffList",list);
+	public String ViewAttendancePage(@RequestParam(name = "staffId", required = false) Integer staffId, Model m) {
+		List<Staff> staffList = s1.getAllStaff();
+		m.addAttribute("staffList", staffList);
+
+		List<Attendance> attendanceList;
+		if (staffId != null) {
+			attendanceList = a1.getAttendanceByStaffId(staffId);
+			Staff selectedStaff = s1.getStaffById(staffId);
+			m.addAttribute("selectedStaff", selectedStaff);
+		} else {
+			attendanceList = a1.getAttendance();
+		}
+
+		m.addAttribute("attendanceList", attendanceList);
 		return "view-attendance";
 	}
+
+
 	@PostMapping("/attendance/add")
 	public String attendanceForm(@ModelAttribute Attendance a)
 	{

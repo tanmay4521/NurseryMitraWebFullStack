@@ -38,7 +38,7 @@
                 <p th:text="${error}">Invalid username or password.</p>
             </div>
 
-            <form th:action="@{/login}" method="post">
+            <form th:action="@{/index}" method="post">
                 <input type="text" name="email" placeholder="Enter Email" required>
                 <input type="password" name="password" placeholder="Enter Password" required>
                 <input type="submit" value="Login">

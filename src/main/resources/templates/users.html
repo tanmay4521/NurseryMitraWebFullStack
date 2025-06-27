@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Manage Users | Nursery Mitra</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+    <style>
+        :root {
+            --bg-main: #0b0e11;
+            --bg-sidebar: #12171c;
+            --bg-card: #1c242c;
+            --accent: #28b16d;
+            --text-light: #d6e6dd;
+            --border-glass: rgba(255,255,255,0.04);
+            --shadow-heavy: rgba(0,0,0,0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Varela Round', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-light);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: var(--bg-sidebar);
+            padding: 2rem 1rem;
+            position: fixed;
+            height: 100%;
+            border-right: 1px solid var(--border-glass);
+            box-shadow: 4px 0 16px var(--shadow-heavy);
+        }
+
+        .sidebar h2 {
+            font-size: 1.6rem;
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li a {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            color: var(--text-light);
+            text-decoration: none;
+            margin-bottom: 0.6rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar li a:hover {
+            background: rgba(40,177,109,0.15);
+            transform: translateX(5px);
+        }
+
+        .sidebar i {
+            width: 22px;
+            margin-right: 10px;
+        }
+
+        .wrapper {
+            margin-left: 250px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-main);
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        h2.page-title {
+            font-size: 1.8rem;
+            color: var(--accent);
+            margin-bottom: 2rem;
+        }
+
+        .form-container, .table-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 6px 18px var(--shadow-heavy);
+        }
+
+        h3 {
+            color: var(--accent);
+            margin-bottom: 1.2rem;
+            font-size: 1.2rem;
+        }
+
+        label {
+            display: block;
+            margin: 0.5rem 0 0.3rem;
+            font-size: 0.95rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.6rem;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 6px;
+            background: #2a333b;
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        button {
+            background: var(--accent);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #23a761;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #2e3c45;
+            text-align: left;
+        }
+
+        th {
+            color: var(--accent);
+            font-size: 1rem;
+        }
+
+        .action-btns a {
+            margin-right: 0.5rem;
+            padding: 0.4rem 0.6rem;
+            border-radius: 5px;
+            text-decoration: none;
+            color: white;
+            font-size: 0.85rem;
+        }
+
+        .edit-btn {
+            background: #007bff;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+        }
+
+        .delete-btn:hover {
+            background: #bb2d3b;
+        }
+
+        .edit-btn:hover {
+            background: #0069d9;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            .wrapper {
+                margin-left: 0;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h2>🌱 Nursery Mitra</h2>
+    <ul>
+        <li><a th:href="@{/admin/dashboard}"><i class="fas fa-tachometer-alt"></i>Dashboard</a></li>
+        <li><a th:href="@{/admin/users}"><i class="fas fa-users"></i>Manage Users</a></li>
+        <li><a th:href="@{/admin/contacts}"><i class="fas fa-envelope"></i>Contact Queries</a></li>
+        <li><a th:href="@{/admin/products}"><i class="fas fa-credit-card"></i>Manage Subscription</a></li>
+        <li><a th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+    </ul>
+</div>
+
+<!-- Main Content -->
+<div class="wrapper">
+    <h2 class="page-title"><i class="fas fa-users"></i> Manage Users</h2>
+
+    <!-- Registration Form -->
+    <div class="form-container">
+        <h3><i class="fas fa-user-plus"></i> Register New User</h3>
+        <form th:action="@{/admin/users/save}" method="post" th:object="${users}">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" th:field="*{name}" placeholder="Enter full name" required />
+
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" th:field="*{email}" placeholder="Enter email" required />
+
+            <label for="nursery_name">Nursery Name:</label>
+            <input type="text" id="nursery_name" th:field="*{nursery_name}" placeholder="Nursery name" required />
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" th:field="*{password}" placeholder="Choose password" required />
+
+            <label for="role">User Role:</label>
+            <select id="role" th:field="*{role}" required>
+                <option value="USER">USER</option>
+                <option value="ADMIN">ADMIN</option>
+            </select>
+
+            <button type="submit"><i class="fas fa-save"></i> Register</button>
+        </form>
+    </div>
+
+    <!-- Registered Users Table -->
+    <div class="table-container">
+        <h3><i class="fas fa-list"></i> Registered Users</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Nursery</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="u : ${users}">
+                <td th:text="${u.id}">1</td>
+                <td th:text="${u.name}">John Doe</td>
+                <td th:text="${u.email}">john@example.com</td>
+                <td th:text="${u.nursery_name}">GreenLife Nursery</td>
+                <td th:text="${u.role}">ADMIN</td>
+                <td class="action-btns">
+                    <a th:href="@{'/admin/users/edit/' + ${u.id}}" class="edit-btn"><i class="fas fa-pen"></i> Edit</a>
+                    <a th:href="@{'/admin/users/delete/' + ${u.id}}" class="delete-btn"
+                       onclick="return confirm('Are you sure you want to delete this user?');">
+                        <i class="fas fa-trash-alt"></i> Delete
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

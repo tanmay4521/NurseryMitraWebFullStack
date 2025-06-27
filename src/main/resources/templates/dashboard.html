@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Nursery Mitra | Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Varela Round font -->
+  <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+
+  <style>
+    /* Same styles as provided earlier (no changes needed) */
+    :root {
+      --bg-main: #0b0e11;
+      --bg-sidebar: #12171c;
+      --bg-card: #1c242c;
+      --accent: #28b16d;
+      --text-light: #d6e6dd;
+      --border-glass: rgba(255,255,255,0.04);
+      --shadow-heavy: rgba(0,0,0,0.6);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Varela Round', sans-serif;
+      background: var(--bg-main);
+      color: var(--text-light);
+      display: flex;
+      min-height: 100vh;
+    }
+    .sidebar {
+      width: 250px;
+      background: var(--bg-sidebar);
+      padding: 2rem 1rem;
+      position: fixed;
+      height: 100%;
+      border-right: 1px solid var(--border-glass);
+      box-shadow: 4px 0 16px var(--shadow-heavy);
+    }
+    .sidebar h2 {
+      font-size:1.6rem;
+      color: var(--accent);
+      text-align:center;
+      margin-bottom:2.5rem;
+    }
+    .sidebar a {
+      display:flex;
+      align-items:center;
+      padding:0.8rem 1rem;
+      color: var(--text-light);
+      text-decoration:none;
+      margin-bottom:0.6rem;
+      border-radius:8px;
+      transition: all 0.3s ease;
+    }
+    .sidebar a:hover {
+      background: rgba(40,177,109,0.15);
+      transform: translateX(5px);
+    }
+    .sidebar i {
+      width:22px;
+      margin-right:10px;
+    }
+    .wrapper {
+      margin-left:250px;
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      background: var(--bg-main);
+    }
+    .wrapper.full-width { margin-left: 0; }
+    .topbar {
+      background: var(--bg-sidebar);
+      padding:1rem 2rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      border-bottom:1px solid var(--border-glass);
+      box-shadow: 0 4px 16px var(--shadow-heavy);
+    }
+    .topbar button {
+      background: var(--accent);
+      border:none;
+      padding:0.6rem 1rem;
+      color: #fff;
+      border-radius:6px;
+      font-weight: 600;
+      cursor:pointer;
+      transition: background 0.3s ease;
+    }
+    .topbar button:hover { background: #23a761; }
+    .topbar span { font-weight:600; font-size: 1rem; }
+    .main-content {
+      padding:2rem;
+      flex:1;
+      overflow-y:auto;
+    }
+    .page-title {
+      font-size:1.8rem;
+      margin-bottom:2rem;
+      color: var(--accent);
+      letter-spacing: 0.5px;
+    }
+    .cards {
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+      gap:1.8rem;
+      margin-bottom:2rem;
+    }
+    .card {
+      background: var(--bg-card);
+      border:1px solid var(--border-glass);
+      border-radius:14px;
+      padding:2rem;
+      box-shadow:0 6px 18px rgba(0,0,0,0.5);
+      transition: all 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow:0 10px 30px rgba(0,0,0,0.7);
+    }
+    .card i {
+      font-size:2.2rem;
+      color: var(--accent);
+      margin-bottom:1rem;
+    }
+    .card h3 {
+      font-size:1.3rem;
+      margin-bottom:0.4rem;
+    }
+    .card p {
+      font-size:1.5rem;
+      font-weight:600;
+      letter-spacing: 0.5px;
+    }
+    .chart-placeholder {
+      height: 320px;
+      background: var(--bg-card);
+      border-radius:14px;
+      border:1px solid var(--border-glass);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color: var(--text-light);
+      font-size: 1.1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+    }
+    @media (max-width:768px) {
+      .sidebar { display:none; }
+      .wrapper { margin:0; }
+      .main-content { padding:1rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="sidebar">
+  <h2>🌱 Nursery Mitra</h2>
+  <a th:href="@{/admin/dashboard}"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+  <a th:href="@{/admin/users}"><i class="fas fa-users"></i>Manage Users</a>
+  <a th:href="@{/admin/contacts}"><i class="fas fa-envelope"></i>Contact Queries</a>
+  <a th:href="@{/admin/products}"><i class="fas fa-credit-card"></i>Manage Subscription</a>
+  <a th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i>Logout</a>
+</div>
+
+<div class="wrapper">
+  <div class="topbar">
+    <button id="menu-toggle"><i class="fas fa-bars"></i></button>
+    <span>Welcome, Admin</span>
+  </div>
+
+  <div class="main-content">
+    <h2 class="page-title">Dashboard Overview</h2>
+    <div class="cards">
+      <div class="card">
+        <i class="fas fa-users"></i>
+        <h3>Total Users</h3>
+        <p th:text="${userCount}">0</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-envelope-open-text"></i>
+        <h3>Contact Queries</h3>
+        <p th:text="${contactCount}">0</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-seedling"></i>
+        <h3>Products</h3>
+        <p th:text="${productCount}">0</p>
+      </div>
+    </div>
+
+    <div class="chart-placeholder">
+      📊 Chart area (e.g., Chart.js integration)
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('menu-toggle').onclick = () => {
+    const sidebar = document.querySelector('.sidebar');
+    const wrapper = document.querySelector('.wrapper');
+
+    if (sidebar.style.display === 'none') {
+      sidebar.style.display = 'block';
+      wrapper.classList.remove('full-width');
+    } else {
+      sidebar.style.display = 'none';
+      wrapper.classList.add('full-width');
+    }
+  };
+</script>
+</body>
+</html>

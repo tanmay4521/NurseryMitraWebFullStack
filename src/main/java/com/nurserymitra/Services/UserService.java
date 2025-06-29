@@ -32,4 +32,9 @@ public class UserService
 	{
 		return u1.findAll();
 	}
+
+	public void saveUsers(Users users)
+	{
+		u1.save(users);
+	}
 }

@@ -8,6 +8,8 @@ import com.nurserymitra.Repository.UserRepository;
 
 import jakarta.servlet.http.HttpSession;
 
+import java.util.List;
+
 @Service
 public class UserService 
 {
@@ -25,5 +27,9 @@ public class UserService
 	}
 	public Users getUserById(int id) {
 	    return u1.findById(id).orElse(null);
+	}
+	public List<Users> getAllUsers()
+	{
+		return u1.findAll();
 	}
 }

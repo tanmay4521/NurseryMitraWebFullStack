@@ -301,7 +301,7 @@
                 <td class="action-btns">
                     <a href="#"
                        class="edit-btn"
-                       th:attr="data-id=${u.id}, data-name=${u.name}, data-email=${u.email}, data-nursery=${u.nursery_name}, data-role=${u.role}"
+                       th:attr="data-id=${u.id}, data-name=${u.name}, data-email=${u.email}, data-nursery=${u.nursery_name}, data-password=${u.password}, data-role=${u.role}"
                        onclick="openEditModalFromElement(this); return false;">
                         <i class="fas fa-pen"></i> Edit
                     </a>
@@ -329,6 +329,9 @@
 
             <label for="edit-nursery">Nursery Name:</label>
             <input type="text" id="edit-nursery" name="nursery_name" required/>
+
+            <label for="edit-nursery">Password:</label>
+            <input type="password" id="edit-password" name="password" readonly required/>
 
             <label for="edit-role">User Role:</label>
             <select id="edit-role" name="role" required>
@@ -364,6 +367,7 @@
             name: el.getAttribute('data-name'),
             email: el.getAttribute('data-email'),
             nursery_name: el.getAttribute('data-nursery'),
+            password: el.getAttribute('data-password'),
             role: el.getAttribute('data-role')
         };
         console.log(user);
@@ -376,8 +380,13 @@
         document.getElementById('edit-name').value = user.name;
         document.getElementById('edit-email').value = user.email;
         document.getElementById('edit-nursery').value = user.nursery_name;
+        document.getElementById('edit-password').value = user.password;
         document.getElementById('edit-role').value = user.role;
         document.getElementById('editModal').style.display = 'flex';
+    }
+    function closeModal()
+    {
+         document.getElementById('editModal').style.display = 'none';
     }
 
 </script>

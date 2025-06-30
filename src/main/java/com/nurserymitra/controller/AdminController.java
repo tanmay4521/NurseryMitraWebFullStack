@@ -59,4 +59,10 @@ public class AdminController
         redirect.addFlashAttribute("success", "User Updated Successfully!");
         return "redirect:/admin/users";
     }
+    @GetMapping("/admin/contacts")
+    public String contactUsQueries(Model m)
+    {
+        m.addAttribute("user",new Users());
+        return "contact_queries";
+    }
 }

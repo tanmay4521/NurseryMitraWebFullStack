@@ -208,7 +208,7 @@
 <div class="wrapper">
   <div class="topbar">
     <button id="menu-toggle"><i class="fas fa-bars"></i></button>
-    <span>Welcome, <span th:text="${user.name}">Admin</span></span>
+    <span>Welcome, Admin</span></span>
   </div>
 
   <div class="content">
@@ -229,20 +229,26 @@
       <tbody>
       <tr th:each="query : ${contactList}">
         <td th:text="${query.id}">1</td>
-        <td th:text="${query.name}">Tanmay</td>
+        <td th:text="${query.full_name}">Tanmay</td>
         <td th:text="${query.email}">tanmay@mail.com</td>
         <td th:text="${query.message}">Need Help!</td>
         <td>
-            <span th:classappend="${query.resolved} ? 'badge resolved' : 'badge pending'"
-                  th:text="${query.resolved} ? 'Resolved' : 'Pending'">Pending</span>
+            <span th:classappend="${query.status == 'resolved'} ? 'badge resolved' : 'badge pending'"
+                  th:text="${query.status == 'resolved'} ? 'Resolved' : 'Pending'">Pending</span>
         </td>
         <td th:text="${#dates.format(query.createdAt, 'dd MMM yyyy')}">30 Jun 2025</td>
         <td class="actions">
           <button type="button"
                   title="View Details"
-                  th:onclick="'openModal(' + ${query.id} + ', \'' + ${query.name} + '\', \'' + ${query.email} + '\', \'' + ${query.message} + '\', \'' + ${#dates.format(query.createdAt, 'dd MMM yyyy')} + '\')'">
+                  class="view-details-btn"
+                  data-id="${query.id}"
+                  data-name="${query.full_name}"
+                  data-email="${query.email}"
+                  data-message="${query.message}"
+                  data-date="${#dates.format(query.createdAt, 'dd MMM yyyy')}">
             <i class="fas fa-eye"></i>
           </button>
+
           <form th:action="@{'/admin/contacts/delete/' + ${query.id}}" method="post" style="display:inline;">
             <button type="submit" class="delete" title="Delete Query"><i class="fas fa-trash-alt"></i></button>
           </form>
@@ -279,8 +285,8 @@
     wrapper.classList.toggle('full-width');
   };
 
-  function openModal(id, name, email, message, date) {
-    document.getElementById('modalName').innerText = name;
+  function openModal(id, full_name, email, message, date) {
+    document.getElementById('modalName').innerText = full_name;
     document.getElementById('modalEmail').innerText = email;
     document.getElementById('modalMessage').innerText = message;
     document.getElementById('modalDate').innerText = date;
@@ -291,6 +297,21 @@
   function closeModal() {
     document.getElementById('queryModal').style.display = 'none';
   }
+  document.addEventListener("DOMContentLoaded", function () {
+  const buttons = document.querySelectorAll(".view-details-btn");
+
+  buttons.forEach(button => {
+    button.addEventListener("click", function () {
+      const id = this.dataset.id;
+      const name = this.dataset.name;
+      const email = this.dataset.email;
+      const message = this.dataset.message;
+      const date = this.dataset.date;
+
+      openModal(id, name, email, message, date);
+    });
+  });
+});
 </script>
 </body>
 </html>

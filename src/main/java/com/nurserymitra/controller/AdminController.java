@@ -1,6 +1,9 @@
 package com.nurserymitra.controller;
 
+import com.nurserymitra.Entity.ContactUsForm;
 import com.nurserymitra.Entity.Users;
+import com.nurserymitra.Services.ContactUsFormService;
+import com.nurserymitra.Services.CustomerService;
 import com.nurserymitra.Services.UserService;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,8 @@ public class AdminController
 {
     @Autowired
     UserService u1;
+    @Autowired
+    ContactUsFormService c1;
     @GetMapping("/admin/dashboard")
     public String adminPanel(Model m)
     {
@@ -62,7 +67,8 @@ public class AdminController
     @GetMapping("/admin/contacts")
     public String contactUsQueries(Model m)
     {
-        m.addAttribute("user",new Users());
+        List<ContactUsForm> list= c1.getAllQueries();
+        m.addAttribute("contactList",list);
         return "contact_queries";
     }
 }

@@ -42,4 +42,14 @@ public class UserService
 	{
 		u1.deleteById(id);
 	}
+
+	public void updateUser(Users u)
+	{
+		u1.save(u);
+	}
+
+	public long getUserCount()
+	{
+		return u1.count();
+	}
 }

@@ -21,4 +21,9 @@ public class ContactUsFormService
     {
         return c1.findAll();
     }
+
+    public long getContactCount()
+    {
+        return c1.count();
+    }
 }

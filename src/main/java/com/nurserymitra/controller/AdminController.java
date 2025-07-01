@@ -25,7 +25,9 @@ public class AdminController
     public String adminPanel(Model m)
     {
         long userCount=u1.getUserCount();
+        long contactCount=c1.getContactCount();
         m.addAttribute("userCount",userCount);
+        m.addAttribute("contactCount",contactCount);
         return "dashboard";
     }
     @GetMapping("/admin/users")

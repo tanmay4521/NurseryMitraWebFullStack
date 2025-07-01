@@ -73,4 +73,11 @@ public class AdminController
         m.addAttribute("contactList",list);
         return "contact_queries";
     }
+    @GetMapping("/admin/contacts/delete/{id}")
+    public String deleteQuery(@PathVariable("id") int id,RedirectAttributes redirect)
+    {
+        c1.deleteQuery(id);
+        redirect.addFlashAttribute("success","Query Deleted Successfully!");
+        return "redirect:/admin/contacts";
+    }
 }

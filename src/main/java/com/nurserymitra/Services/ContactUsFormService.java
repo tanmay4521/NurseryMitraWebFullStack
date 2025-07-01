@@ -26,4 +26,9 @@ public class ContactUsFormService
     {
         return c1.count();
     }
+
+    public void deleteQuery(int id)
+    {
+        c1.deleteById(id);
+    }
 }

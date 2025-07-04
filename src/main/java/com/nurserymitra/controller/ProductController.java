@@ -46,9 +46,15 @@ public class ProductController
 		p1.deleteProdByID(id);
 		return "redirect:/products/view-product";
 	}
-//	@PostMapping("/products/update")
-//	public String updateProduct(@PathVariable("id") int id,@ModelAttribute("product") Product product,Model m)
-//	{
-//		Product p=p1.getProductByID(id);
-//	}
+	@PostMapping("/products/update")
+	public String updateProduct(@ModelAttribute("product") Product p)
+	{
+		p1.saveProducts(p);
+		return "redirect:/productUpdateAlert";
+	}
+	@GetMapping("/productUpdateAlert")
+	public String productAlertUpdate()
+	{
+		return "productUpdateAlert";
+	}
 }

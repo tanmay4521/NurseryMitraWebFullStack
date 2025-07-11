@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
+
 @Controller
 public class ContactUsFormController {
     @Autowired
@@ -18,6 +20,8 @@ public class ContactUsFormController {
     @PostMapping("/submitContact")
     public String submitForm(@ModelAttribute ContactUsForm c, RedirectAttributes redirect)
     {
+        LocalDate currentDate=LocalDate.now();
+        c.setCreatedAt(String.valueOf(currentDate));
         c1.submitForm(c);
         redirect.addFlashAttribute("success","Query Submitted Successfully!");
         return "redirect:/contactus";

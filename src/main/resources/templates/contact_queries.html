@@ -253,7 +253,7 @@
             <span th:classappend="${query.status == 'resolved'} ? 'badge resolved' : 'badge pending'"
                   th:text="${query.status == 'resolved'} ? 'Resolved' : 'Pending'">Pending</span>
         </td>
-        <td th:text="${#dates.format(query.createdAt, 'dd MMM yyyy')}">30 Jun 2025</td>
+        <td th:text="${query.createdAt}">30 Jun 2025</td>
         <td class="actions">
           <button type="button"
                   title="View Details"
@@ -262,7 +262,7 @@
                   th:data-name="${query.full_name}"
                   th:data-email="${query.email}"
                   th:data-message="${query.message}"
-                  th:data-date="${#dates.format(query.createdAt, 'dd MMM yyyy')}">
+                  th:data-date="${query.createdAt}">
             <i class="fas fa-eye"></i>
           </button>
 
@@ -287,8 +287,9 @@
     <p><strong>Date:</strong> <span id="modalDate"></span></p>
 
     <form id="resolveForm" method="post">
-      <label for="resolution">Admin Notes:</label><br>
-      <textarea name="resolution" id="resolution" rows="5" placeholder="Write your resolution here..."></textarea><br><br>
+      <input type="hidden" name="id" id="hiddenQueryId">
+      <label for="solution">Admin Notes:</label><br>
+      <textarea name="solution" id="solution" rows="5" placeholder="Write your solution here..."></textarea><br><br>
       <button type="submit" class="resolve-btn">Solve Query</button>
     </form>
   </div>
@@ -306,38 +307,39 @@
     }
 });
 document.getElementById('menu-toggle').onclick = () => {
-const sidebar = document.querySelector('.sidebar');
-const wrapper = document.querySelector('.wrapper');
-sidebar.style.display = (sidebar.style.display === 'none') ? 'block' : 'none';
-wrapper.classList.toggle('full-width');
+  const sidebar = document.querySelector('.sidebar');
+  const wrapper = document.querySelector('.wrapper');
+  sidebar.style.display = (sidebar.style.display === 'none') ? 'block' : 'none';
+  wrapper.classList.toggle('full-width');
 };
 
 function openModal(id, full_name, email, message, date) {
-document.getElementById('modalName').innerText = full_name;
-document.getElementById('modalEmail').innerText = email;
-document.getElementById('modalMessage').innerText = message;
-document.getElementById('modalDate').innerText = date;
-document.getElementById('resolveForm').action = '/admin/contacts/resolve/' + id;
-document.getElementById('queryModal').style.display = 'flex';
+  document.getElementById('modalName').innerText = full_name;
+  document.getElementById('modalEmail').innerText = email;
+  document.getElementById('modalMessage').innerText = message;
+  document.getElementById('hiddenQueryId').value = id;
+  document.getElementById('modalDate').innerText = date;
+  document.getElementById('resolveForm').action = '/admin/contacts/resolve/' + id;
+  document.getElementById('queryModal').style.display = 'flex';
 }
 
 function closeModal() {
-document.getElementById('queryModal').style.display = 'none';
+  document.getElementById('queryModal').style.display = 'none';
 }
 document.addEventListener("DOMContentLoaded", function () {
-const buttons = document.querySelectorAll(".view-details-btn");
+  const buttons = document.querySelectorAll(".view-details-btn");
 
-buttons.forEach(button => {
-button.addEventListener("click", function () {
-  const id = this.dataset.id;
-  const name = this.dataset.name;
-  const email = this.dataset.email;
-  const message = this.dataset.message;
-  const date = this.dataset.date;
+  buttons.forEach(button => {
+    button.addEventListener("click", function () {
+      const id = this.dataset.id;
+      const name = this.dataset.name;
+      const email = this.dataset.email;
+      const message = this.dataset.message;
+      const date = this.dataset.date;
 
-  openModal(id, name, email, message, date);
-});
-});
+      openModal(id, name, email, message, date);
+    });
+  });
 });
 </script>
 </body>

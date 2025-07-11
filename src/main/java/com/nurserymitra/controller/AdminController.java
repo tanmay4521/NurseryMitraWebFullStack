@@ -80,4 +80,18 @@ public class AdminController
         redirect.addFlashAttribute("success","Query Deleted Successfully!");
         return "redirect:/admin/contacts";
     }
+    @PostMapping("/admin/contacts/resolve/{id}")
+    public String resolveQuery(@PathVariable("id") int id, @RequestParam("solution") String solution, RedirectAttributes redirect) {
+        ContactUsForm existingQuery = c1.getQueryById(id);
+        if (existingQuery != null) {
+            existingQuery.setSolution(solution);
+            existingQuery.setStatus("resolved");
+            c1.submitForm(existingQuery);
+            redirect.addFlashAttribute("success", "Query Solved Successfully!!");
+        } else {
+            redirect.addFlashAttribute("error", "Query not found!");
+        }
+        return "redirect:/admin/contacts";
+    }
+
 }

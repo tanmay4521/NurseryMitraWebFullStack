@@ -31,4 +31,7 @@ public class ContactUsFormService
     {
         c1.deleteById(id);
     }
+    public ContactUsForm getQueryById(int id) {
+        return c1.findById(id).orElse(null);
+    }
 }

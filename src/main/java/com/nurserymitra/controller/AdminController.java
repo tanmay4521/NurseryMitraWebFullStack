@@ -7,6 +7,8 @@ import com.nurserymitra.Services.CustomerService;
 import com.nurserymitra.Services.UserService;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,8 @@ public class AdminController
     UserService u1;
     @Autowired
     ContactUsFormService c1;
+    @Autowired
+    JavaMailSender mailSender;
     @GetMapping("/admin/dashboard")
     public String adminPanel(Model m)
     {
@@ -87,7 +91,18 @@ public class AdminController
             existingQuery.setSolution(solution);
             existingQuery.setStatus("resolved");
             c1.submitForm(existingQuery);
-            redirect.addFlashAttribute("success", "Query Solved Successfully!!");
+            try {
+                SimpleMailMessage message = new SimpleMailMessage();
+                message.setFrom("info.nurserymitra@gmail.com");
+                message.setTo(existingQuery.getEmail());
+                message.setSubject("Re: " + existingQuery.getMessage());
+                message.setText(solution);
+                mailSender.send(message);
+                redirect.addFlashAttribute("success", "Query solved and email sent successfully!");
+
+            } catch (Exception e) {
+                redirect.addFlashAttribute("warning", "Query solved but email failed to send.");
+            }
         } else {
             redirect.addFlashAttribute("error", "Query not found!");
         }

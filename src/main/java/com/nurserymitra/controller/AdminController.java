@@ -108,5 +108,10 @@ public class AdminController
         }
         return "redirect:/admin/contacts";
     }
+    @GetMapping("/admin/subscriptions")
+    public String subscriptionsQuery(Model m)
+    {
+        return "manage_subscription";
+    }
 
 }

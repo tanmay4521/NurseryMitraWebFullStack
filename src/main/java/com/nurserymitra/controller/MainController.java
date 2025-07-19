@@ -23,15 +23,20 @@ public class MainController {
         model.addAttribute("user", new Users());
         return "login";
     }
-
   
     @PostMapping("/index")
     public String loginSubmit(@ModelAttribute("user") Users user, Model model, HttpSession session) {
         Users existingUser = userService.validateUser(user.getEmail(), user.getPassword());
-        
+        String role=existingUser.getRole();
         if (existingUser != null) {
             session.setAttribute("loggedInUserId", existingUser.getId());
-            return "redirect:/index";
+            if(role.equals("ADMIN"))
+            {
+                return "redirect:/admin/dashboard";
+            }
+            else {
+                return "redirect:/index";
+            }
         } else {
             model.addAttribute("error", "Invalid username or password");
             return "login";

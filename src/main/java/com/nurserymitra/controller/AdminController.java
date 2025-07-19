@@ -5,6 +5,7 @@ import com.nurserymitra.Entity.Users;
 import com.nurserymitra.Services.ContactUsFormService;
 import com.nurserymitra.Services.CustomerService;
 import com.nurserymitra.Services.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -26,10 +27,18 @@ public class AdminController
     @Autowired
     JavaMailSender mailSender;
     @GetMapping("/admin/dashboard")
-    public String adminPanel(Model m)
+    public String adminPanel(Model m, HttpSession session)
     {
         long userCount=u1.getUserCount();
         long contactCount=c1.getContactCount();
+        Integer userId = (Integer) session.getAttribute("loggedInUserId");
+
+        if (userId != null) {
+            Users user = u1.getUserById(userId);
+            m.addAttribute("user", user.getName());
+        } else {
+            m.addAttribute("user", "Admin");
+        }
         m.addAttribute("userCount",userCount);
         m.addAttribute("contactCount",contactCount);
         return "dashboard";

@@ -223,7 +223,7 @@
 <div class="wrapper">
   <div class="topbar">
     <button id="menu-toggle"><i class="fas fa-bars"></i></button>
-    <span>Welcome, Admin</span></span>
+    <span>Welcome, <i th:text="${user}"></i></span>
   </div>
   <div id="toast" th:if="${success}" class="toast">
     <p th:text="${success}"></p>

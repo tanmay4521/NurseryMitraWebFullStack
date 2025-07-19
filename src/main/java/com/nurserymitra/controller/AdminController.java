@@ -80,9 +80,17 @@ public class AdminController
         return "redirect:/admin/users";
     }
     @GetMapping("/admin/contacts")
-    public String contactUsQueries(Model m)
+    public String contactUsQueries(Model m, HttpSession session)
     {
         List<ContactUsForm> list= c1.getAllQueries();
+        Integer userId = (Integer) session.getAttribute("loggedInUserId");
+
+        if (userId != null) {
+            Users user = u1.getUserById(userId);
+            m.addAttribute("user", user.getName());
+        } else {
+            m.addAttribute("user", "Admin");
+        }
         m.addAttribute("contactList",list);
         return "contact_queries";
     }
@@ -118,8 +126,15 @@ public class AdminController
         return "redirect:/admin/contacts";
     }
     @GetMapping("/admin/subscriptions")
-    public String subscriptionsQuery(Model m)
+    public String subscriptionsQuery(Model m, HttpSession session)
     {
+        Integer userId = (Integer) session.getAttribute("loggedInUserId");
+        if (userId != null) {
+            Users user = u1.getUserById(userId);
+            m.addAttribute("user", user.getName());
+        } else {
+            m.addAttribute("user", "Admin");
+        }
         return "manage_subscription";
     }
 
